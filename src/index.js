@@ -1,4 +1,3 @@
-import test from './modules/test';
+import togglePopUp from './modules/popup';
 
-
-test();
+togglePopUp();
