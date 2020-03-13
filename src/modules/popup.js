@@ -1,12 +1,12 @@
 'use strict';
 import animateThis from './animate';
 
-const togglePopUp = () => {
-  let popup = document.querySelector('.popup-call'),
-  popupContent = document.querySelector('.popup-content');
+const togglePopUp = (popupName, buttonName) => {
+  let popup = document.querySelector(popupName),
+  popupContent = popup.querySelector('.popup-content');
 
   document.addEventListener('click', (e)=>{
-    if (e.target.classList.contains('call-btn')){
+    if (e.target.classList.contains(buttonName)){
       e.preventDefault();
       popupContent.style.top = "-100%";
       animateThis( popup, 'opacity', 0, 100, 5, () => {
