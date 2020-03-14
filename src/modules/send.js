@@ -11,6 +11,7 @@ const sendForm = () => {
   document.addEventListener('submit', (event) => {
     
     event.preventDefault();
+
     if( event.target.classList.contains( "director-form" ) ){
       const formData = new FormData(event.target);
       let data = JSON.stringify(Object.fromEntries(formData));
@@ -22,9 +23,22 @@ const sendForm = () => {
       document.querySelector('.popup-consultation').querySelector('form').prepend( question );
       consultPopup.openPopup();
     } else {
+      let buttons = event.target.querySelectorAll("button, input[type=submit]");
+      buttons.forEach(element => {
+        element.disabled = true;
+      });
       event.target.appendChild(statusMessage);
       statusMessage.textContent = loadMessage;
 
+      let statusImg = document.querySelector('img.status');
+      if(!statusImg){
+        statusImg = document.createElement('img');
+        statusImg.classList.add('status');
+        statusImg.style.width = 64+'px';
+        statusImg.style.height = 64+'px';
+        event.target.append(statusImg);
+      }
+      statusImg.src = 'img/spinner.gif';
       const formData = new FormData(event.target);
       statusMessage.style.display = 'block';
 
@@ -39,15 +53,22 @@ const sendForm = () => {
         if(response.status !== 200){
           throw new Error();
         }
+        statusImg.src = 'img/success.png';
         statusMessage.textContent = successMessage;
         event.target.reset();
       })
       .catch((e) => {
         statusMessage.textContent = errorMessage;
+        statusImg.src = 'img/error.png';
       })
       .finally(() => {
         setTimeout(()=>{
           statusMessage.style.display = 'none';
+          document.querySelector('img.status').remove();
+
+          buttons.forEach(element => {
+            element.disabled = false;
+          });
         }, 5000);
       });
     }
