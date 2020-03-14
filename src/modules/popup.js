@@ -1,20 +1,10 @@
 'use strict';
 import animateThis from './animate';
 
-const togglePopUp = (popupName, buttonName) => {
+const togglePopUp = (popupName) => {
   let popup = document.querySelector(popupName),
   popupContent = popup.querySelector('.popup-content');
 
-  document.addEventListener('click', (e)=>{
-    if (e.target.classList.contains(buttonName)){
-      e.preventDefault();
-      popupContent.style.top = "-100%";
-      animateThis( popup, 'opacity', 0, 100, 5, () => {
-        animateThis( popupContent, 'top', -100, 25, 5, ()=>{} );
-      });
-    }
-  });
-  
   popup.addEventListener('click', (e)=> {
     let target = e.target.closest('.popup-content');
     if(e.target.classList.contains('popup-close') || !target ){
@@ -26,6 +16,24 @@ const togglePopUp = (popupName, buttonName) => {
       });
      }
   });
+
+  return {
+    openPopup() {
+      popupContent.style.top = "-100%";
+      animateThis( popup, 'opacity', 0, 100, 5, () => {
+        animateThis( popupContent, 'top', -100, 25, 5, ()=>{} );
+      });
+    },
+    trigger( buttonName ){
+      document.addEventListener('click', (e)=>{
+        if (e.target.classList.contains(buttonName)){
+          e.preventDefault();
+          this.openPopup();
+        }
+      });
+    }
+  };
+  
 };
 
  export default togglePopUp;
