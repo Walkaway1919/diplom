@@ -8,18 +8,23 @@ const calc = () => {
   formForSave = document.querySelector('.save_calc_data_here'),
   savedInput = document.createElement("input"),
   calcResults = {};
-
+  calcBlock.reset();
+  result.value = '';
   savedInput.type = 'hidden';
-  savedInput.name = 'calc_results';
+  savedInput.name = 'outer_data';
   formForSave.prepend( savedInput );
 
-  const saveVal = (elem) => {
+
+
+  const saveVal = (elem, recout = true) => {
     if(elem.type === 'checkbox' ){
       calcResults[elem.name] = elem.checked;
     } else {
       calcResults[elem.name] = elem.value;
     }
-    countSum();
+    if( recout ){
+      countSum();
+    }
   };
 
   const check = () =>{
@@ -28,7 +33,6 @@ const calc = () => {
     }else{
       wellTwo.style.display = 'block';
     }
-    countSum();
   };
   
   const countSum = () => {
@@ -68,7 +72,7 @@ const calc = () => {
   };
 
   check();
-  calcBlock.querySelectorAll("input,select").forEach( input => saveVal(input) );
+  calcBlock.querySelectorAll("input,select").forEach( input => saveVal(input, false) );
 
   onoffswitch.addEventListener('change', check);
   calcBlock.addEventListener('change', (e) => saveVal(e.target) );

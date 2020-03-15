@@ -2,20 +2,10 @@
 import animateThis from './animate';
 
 const togglePopUp = (popupName) => {
-  let popup = document.querySelector(popupName),
+  let popup = typeof popupName === 'string' ? document.querySelector(popupName) : popupName,
   popupContent = popup.querySelector('.popup-content');
 
-  popup.addEventListener('click', (e)=> {
-    let target = e.target.closest('.popup-content');
-    if(e.target.classList.contains('popup-close') || !target ){
-      e.preventDefault();
-      animateThis( popupContent, 'top', 25, 100, 10, ()=>{
-        animateThis( popup, 'opacity', 100, 0, -3, () => {
-          popup.style.display = 'none';
-        });
-      });
-     }
-  });
+  
 
   return {
     openPopup() {
@@ -23,14 +13,34 @@ const togglePopUp = (popupName) => {
       animateThis( popup, 'opacity', 0, 100, 5, () => {
         animateThis( popupContent, 'top', -100, 25, 5, ()=>{} );
       });
+      return this;
     },
-    trigger( buttonName ){
+    closePopup() {
+      animateThis( popupContent, 'top', 25, 100, 10, ()=>{
+        animateThis( popup, 'opacity', 100, 0, -3, () => {
+          popup.style.display = 'none';
+        });
+      });
+      return this;
+    },
+    triggerOpen( buttonName ){
       document.addEventListener('click', (e)=>{
         if (e.target.classList.contains(buttonName)){
           e.preventDefault();
           this.openPopup();
         }
       });
+      return this;
+    },
+    triggerClose(){
+      popup.addEventListener('click', (e)=> {
+        let target = e.target.closest('.popup-content');
+        if(e.target.classList.contains('popup-close') || !target ){
+          e.preventDefault();
+          this.closePopup();
+         }
+      });
+      return this;
     }
   };
   

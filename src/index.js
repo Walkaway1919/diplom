@@ -6,9 +6,9 @@ import addBlocks from './modules/addblocks';
 import checkFields from './modules/checkFields';
 import sendForm from './modules/send';
 
-togglePopUp('.popup-call').trigger('call-btn');
-togglePopUp('.popup-discount').trigger('discount-btn');
-togglePopUp('.popup-check').trigger('check-btn');
+togglePopUp('.popup-discount').triggerOpen('call-btn').triggerClose();
+togglePopUp('.popup-discount').triggerOpen('discount-btn').triggerClose();
+togglePopUp('.popup-check').triggerOpen('check-btn').triggerClose();
 
 initCollapse('accordion-two');
 initCollapse('accordion');

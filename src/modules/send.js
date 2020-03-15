@@ -7,7 +7,7 @@ const sendForm = () => {
   const loadMessage = 'Load';
   const statusMessage = document.createElement('div');
 
-  let consultPopup = togglePopUp('.popup-consultation');
+  let consultPopup = togglePopUp('.popup-consultation').triggerClose();
   document.addEventListener('submit', (event) => {
     
     event.preventDefault();
@@ -18,7 +18,7 @@ const sendForm = () => {
 
       let question = document.createElement("input");
       question.type = 'hidden';
-      question.name = 'question';
+      question.name = 'outer_data';
       question.value = data;
       document.querySelector('.popup-consultation').querySelector('form').prepend( question );
       consultPopup.openPopup();
@@ -40,6 +40,10 @@ const sendForm = () => {
       }
       statusImg.src = 'img/spinner.gif';
       const formData = new FormData(event.target);
+      let jsonData = {};
+      for (const [key, value]  of formData.entries()) {
+        jsonData[key] =  key === 'outer_data' ? JSON.parse( value ) : value;
+      }
       statusMessage.style.display = 'block';
 
       fetch('server.php', {
@@ -47,7 +51,7 @@ const sendForm = () => {
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
-        body: formData,
+        body: JSON.stringify(jsonData),
       })
       .then((response)=>{
         if(response.status !== 200){
@@ -56,6 +60,14 @@ const sendForm = () => {
         statusImg.src = 'img/success.png';
         statusMessage.textContent = successMessage;
         event.target.reset();
+        
+        // проверка на всплывающее ли окно
+        setTimeout(()=>{
+          let inPopUp = event.target.closest('.popup');
+          if(inPopUp){
+            togglePopUp(inPopUp).closePopup();
+          }
+        }, 3000);
       })
       .catch((e) => {
         statusMessage.textContent = errorMessage;
@@ -65,11 +77,10 @@ const sendForm = () => {
         setTimeout(()=>{
           statusMessage.style.display = 'none';
           document.querySelector('img.status').remove();
-
           buttons.forEach(element => {
             element.disabled = false;
           });
-        }, 5000);
+        }, 3000);
       });
     }
   });
