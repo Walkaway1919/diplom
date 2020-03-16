@@ -68,7 +68,14 @@ const calc = () => {
 
     result.value = final;
     calcResults.calc_result = final;
-    savedInput.value = JSON.stringify( calcResults );
+    let finalResults = {...calcResults};
+    if( calcResults.septic_type ){
+
+      delete finalResults.septic_well_2_d;
+      delete finalResults.septic_well_2_a;
+
+    }
+    savedInput.value = JSON.stringify( finalResults );
   };
 
   check();
