@@ -11,7 +11,7 @@ togglePopUp('.popup-discount').triggerOpen('discount-btn').triggerClose();
 togglePopUp('.popup-check').triggerOpen('check-btn').triggerClose();
 
 initCollapse('accordion-two');
-initCollapse('accordion');
+
 
 calc();
 addBlocks();

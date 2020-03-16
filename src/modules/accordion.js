@@ -1,6 +1,6 @@
 'use strict';
 
-const initCollapse = (accordionName) => {
+const initCollapse = (accordionName, callback) => {
   let panelGroup = document.getElementById(accordionName);
   let panelList = panelGroup.querySelectorAll('.panel-default');
 
@@ -43,6 +43,9 @@ const initCollapse = (accordionName) => {
       if(currentPanelIndex < panelList.length - 1){
         toggle(panelList[currentPanelIndex+1]);
       }
+    }
+    if( callback ) {
+      callback();
     }
   });
 };

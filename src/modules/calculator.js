@@ -1,4 +1,5 @@
 'use strict';
+import initCollapse from './accordion';
 
 const calc = () => {
   let calcBlock = document.getElementById('accordion'),
@@ -13,7 +14,6 @@ const calc = () => {
   savedInput.type = 'hidden';
   savedInput.name = 'outer_data';
   formForSave.prepend( savedInput );
-
 
 
   const saveVal = (elem, recout = true) => {
@@ -75,6 +75,9 @@ const calc = () => {
       delete finalResults.septic_well_2_a;
 
     }
+    if( !finalResults.distance ) {
+      finalResults.distance = 0;
+    }
     savedInput.value = JSON.stringify( finalResults );
   };
 
@@ -83,6 +86,9 @@ const calc = () => {
 
   onoffswitch.addEventListener('change', check);
   calcBlock.addEventListener('change', (e) => saveVal(e.target) );
+
+  
+  initCollapse('accordion', countSum );
 };
 
 export default calc;
