@@ -78,6 +78,14 @@ const calc = () => {
     if( !finalResults.distance ) {
       finalResults.distance = 0;
     }
+    
+    let savedInput = formForSave.querySelector('[name="outer_data"]');
+    if( !savedInput ){
+      savedInput = document.createElement("input");
+      savedInput.type = 'hidden';
+      savedInput.name = 'outer_data';
+      formForSave.prepend( savedInput );
+    }
     savedInput.value = JSON.stringify( finalResults );
   };
 
@@ -89,6 +97,8 @@ const calc = () => {
 
   
   initCollapse('accordion', countSum );
+
+  return countSum;
 };
 
 export default calc;

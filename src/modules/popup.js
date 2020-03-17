@@ -23,10 +23,11 @@ const togglePopUp = (popupName) => {
       });
       return this;
     },
-    triggerOpen( buttonName ){
+    triggerOpen( buttonName, callback ){
       document.addEventListener('click', (e)=>{
         if (e.target.classList.contains(buttonName)){
           e.preventDefault();
+          callback();
           this.openPopup();
         }
       });
